@@ -1,4 +1,4 @@
-package com.example.restclient.dto;
+package com.example.restclient.dto.stanregincd;
 
 import lombok.Getter;
 

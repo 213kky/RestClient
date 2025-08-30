@@ -1,4 +1,4 @@
-package com.example.restclient;
+package com.example.restclient.controller;
 
 import com.example.restclient.dto.StanReginCdResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
