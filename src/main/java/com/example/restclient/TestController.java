@@ -71,21 +71,13 @@ public class TestController {
                 .uri(uri)
                 .accept(MediaType.TEXT_HTML) // 응답이 content-type text/html 임... MediaType.APPLICATION_JSON하면 HTTP ROUTING ERROR 에러남
                 .retrieve()
-                .toEntity(String.class).toString();
+                .toEntity(String.class).getBody();
 
         log.info("responseString: {}", responseString);
 
         StanReginCdResponse stanReginCdResponse = null;
         try {
-            // 1. JSON 시작 위치
-            int start = responseString.indexOf("{");
-            int end = responseString.lastIndexOf("}");
-
-            // 2. JSON 추출
-            String jsonPart = responseString.substring(start, end + 1);
-            log.info("jsonPart: {}", jsonPart);
-
-            stanReginCdResponse = objectMapper.readValue(jsonPart, StanReginCdResponse.class);
+            stanReginCdResponse = objectMapper.readValue(responseString, StanReginCdResponse.class);
         } catch (Exception e) {
             log.error("파싱 실패 에러 메시지 {}", e.getMessage());
         }
