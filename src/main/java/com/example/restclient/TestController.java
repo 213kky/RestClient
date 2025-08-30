@@ -2,6 +2,7 @@ package com.example.restclient;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +18,12 @@ import java.net.URI;
 public class TestController {
 
     private final RestClient restClient;
+    @Value("${secretkey}")
+    private String serviceKey;
 
-    @GetMapping("/api/test")
+    // 국토교통부_공동주택 기본 정보제공 서비스 (단지코드 필요)
+    @GetMapping("/api/test/0")
     public ResponseEntity test() {
-        String serviceKey = "인코딩키";
-
         URI uri = UriComponentsBuilder
                 .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4")
                 .queryParam("serviceKey", serviceKey)
