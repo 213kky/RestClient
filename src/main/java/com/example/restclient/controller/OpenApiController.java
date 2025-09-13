@@ -79,19 +79,19 @@ public class TestController {
 
     // 행정안전부_행정표준코드_법정동코드
     // 법정동코드 정보의 지역코드, 시도코드, 읍면동코드, 리코드, 지역주소명 등을 조회한다.
-    @GetMapping("/api/test/1")
-    public ResponseEntity<?> test1() {
-        String location = "경기도";
+    @GetMapping("/api/legal-dong-codes")
+    public ResponseEntity<StanReginCdResponse> getLegalDongCode(
+            @RequestParam String location,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNo,
+            @RequestParam(required = false, defaultValue = "10") Integer numOfRows
+    ) {
         String encodedLocation = URLEncoder.encode(location, StandardCharsets.UTF_8);
-
-        String pageNo = "1";
-        String numOfRows = "10";
 
         URI uri = UriComponentsBuilder
                 .fromUriString("https://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList")
                 .queryParam("serviceKey", serviceKey)
-                .queryParam("pageNo", pageNo) // 페이지번호
-                .queryParam("numOfRows", numOfRows) // 한 페이지 결과 수
+                .queryParam("pageNo", String.valueOf(pageNo)) // 페이지번호
+                .queryParam("numOfRows", String.valueOf(numOfRows)) // 한 페이지 결과 수
                 .queryParam("type", "json")
                 .queryParam("locatadd_nm", encodedLocation)
                 .build(true) // 이미 인코딩된 키 인코딩 방지
