@@ -1,5 +1,7 @@
 package com.example.restclient.controller;
 
+import com.example.restclient.dto.apartment.basic.ApartmentBasicInfo;
+import com.example.restclient.dto.apartment.basic.BasicItem;
 import com.example.restclient.dto.apartment.detail.ApartmentDetailInfo;
 import com.example.restclient.dto.apartment.detail.DetailItem;
 import com.example.restclient.dto.aptlist.Body;
@@ -49,7 +51,22 @@ public class TestController {
                 .retrieve()
                 .body(new ParameterizedTypeReference<ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>>>() {});
 
-        return ResponseEntity.ok().body(detailInfo);
+        uri = UriComponentsBuilder
+                .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusBassInfoV4") // 기본
+                .queryParam("serviceKey", serviceKey)
+                .queryParam("kaptCode", "A15876402") // 단지코드
+                .build(true) // 이미 인코딩된 키 인코딩 방지
+                .toUri();
+
+        log.info("최종 URI: {}", uri);
+
+        ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>> basicInfo = restClient.get()
+            .uri(uri)
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .body(new ParameterizedTypeReference<ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>>>() {});
+
+        return ResponseEntity.ok().body(basicInfo);
     }
 
     // 행정안전부_행정표준코드_법정동코드
