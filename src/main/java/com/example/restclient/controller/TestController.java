@@ -34,12 +34,14 @@ public class TestController {
     private String serviceKey;
 
     // 국토교통부_공동주택 기본 정보제공 서비스 (단지코드 필요)
+    // 1 국토교통부_공동주택 상세 정보조회 -> https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4
+    // 2 국토교통부_공동주택 기본 정보조회 -> https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusBassInfoV4
     @GetMapping("/api/test/0")
     public ResponseEntity test() {
         URI uri = UriComponentsBuilder
-                .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4")
+                .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4") // 상세
                 .queryParam("serviceKey", serviceKey)
-                .queryParam("kaptCode", "A15876402")
+                .queryParam("kaptCode", "A15876402") // 단지코드
                 .build(true) // 이미 인코딩된 키 인코딩 방지
                 .toUri();
 
