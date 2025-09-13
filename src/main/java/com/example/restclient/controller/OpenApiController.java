@@ -27,7 +27,7 @@ import java.net.URI;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class TestController {
+public class OpenApiController {
 
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
@@ -38,7 +38,7 @@ public class TestController {
     // 1 국토교통부_공동주택 상세 정보조회 -> https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4
     // 2 국토교통부_공동주택 기본 정보조회 -> https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusBassInfoV4
     @GetMapping("/api/apartment/basic")
-    public ResponseEntity<ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>>> aptBasicInfo(@RequestParam String kaptCode) {
+    public ResponseEntity<ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>>> getAptBasicInfo(@RequestParam String kaptCode) {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusBassInfoV4") // 기본
                 .queryParam("serviceKey", serviceKey)
@@ -58,7 +58,7 @@ public class TestController {
     }
 
     @GetMapping("/api/apartment/detail")
-    public ResponseEntity<ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>>> aptDetailInfo(@RequestParam String kaptCode) {
+    public ResponseEntity<ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>>> getAptDetailInfo(@RequestParam String kaptCode) {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4") // 상세
                 .queryParam("serviceKey", serviceKey)
