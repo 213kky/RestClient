@@ -17,10 +17,10 @@ public class BasicItem {
     private String kaptAcompany;    // 시공사
     private String kaptTel;         // 전화
     private String kaptUrl;         // 홈페이지
-    private String codeAptNm;       // 아파트 명
+    private String codeAptNm;       // 건물 유형 아파트/주상복합 등
     private String doroJuso;        // 도로명 주소
     private String codeMgrNm;       // 관리 방식
-    private String codeHallNm;      // 난방 방식
+    private String codeHallNm;      // 복도유형 계단식/복도식
     private String kaptUsedate;     // 사용 승인일
     private String kaptFax;         // 팩스
     private Integer hoCnt;          // 호 수
@@ -34,7 +34,7 @@ public class BasicItem {
     private Integer kaptTopFloor;   // 최고 층
     private Integer ktownFlrNo;     // 총 층
     private Integer kaptBaseFloor;  // 기준 층
-    private Integer kaptdEcntp;     // 엘리베이터 수
+    private Integer kaptdEcntp;     // 뭔지 모르겠다
     private String zipcode;         // 우편번호
 
 }

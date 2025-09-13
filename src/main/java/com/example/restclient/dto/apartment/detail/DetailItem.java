@@ -28,8 +28,8 @@ public class DetailItem {
     private String codeElev;         // 승강기 관리
     private Integer kaptdEcnt;       // 승강기 수
     private String kaptdPcnt;        // 주차대수
-    private String kaptdPcntu;       // 가구당 주차대수
-    private String codeNet;          // 네트워크 여부
+    private String kaptdPcntu;       //  주차대수 지하
+    private String codeNet;          // 주차관제·홈네트워크 여부
     private String kaptdCccnt;       // CCTV 대수
     private String welfareFacility;  // 복지시설
     private String kaptdWtimebus;    // 버스정류장 접근성
