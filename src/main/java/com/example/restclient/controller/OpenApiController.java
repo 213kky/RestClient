@@ -36,24 +36,9 @@ public class TestController {
     // 국토교통부_공동주택 기본 정보제공 서비스 (단지코드 필요)
     // 1 국토교통부_공동주택 상세 정보조회 -> https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4
     // 2 국토교통부_공동주택 기본 정보조회 -> https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusBassInfoV4
-    @GetMapping("/api/test/0")
-    public ResponseEntity test() {
+    @GetMapping("/api/apartment/basic")
+    public ResponseEntity<ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>>> aptBasicInfo() {
         URI uri = UriComponentsBuilder
-                .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4") // 상세
-                .queryParam("serviceKey", serviceKey)
-                .queryParam("kaptCode", "A15876402") // 단지코드
-                .build(true) // 이미 인코딩된 키 인코딩 방지
-                .toUri();
-
-        log.info("최종 URI: {}" , uri);
-
-        ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>> detailInfo = restClient.get()
-                .uri(uri)
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .body(new ParameterizedTypeReference<ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>>>() {});
-
-        uri = UriComponentsBuilder
                 .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusBassInfoV4") // 기본
                 .queryParam("serviceKey", serviceKey)
                 .queryParam("kaptCode", "A15876402") // 단지코드
@@ -63,12 +48,32 @@ public class TestController {
         log.info("최종 URI: {}", uri);
 
         ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>> basicInfo = restClient.get()
-            .uri(uri)
-            .accept(MediaType.APPLICATION_JSON)
-            .retrieve()
-            .body(new ParameterizedTypeReference<ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>>>() {});
+                .uri(uri)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>>>() {});
 
         return ResponseEntity.ok().body(basicInfo);
+    }
+
+    @GetMapping("/api/apartment/detail")
+    public ResponseEntity<ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>>> aptDetailInfo() {
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4") // 상세
+                .queryParam("serviceKey", serviceKey)
+                .queryParam("kaptCode", "A15876402") // 단지코드
+                .build(true) // 이미 인코딩된 키 인코딩 방지
+                .toUri();
+
+        log.info("최종 URI: {}", uri);
+
+        ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>> detailInfo = restClient.get()
+                    .uri(uri)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .body(new ParameterizedTypeReference<ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>>>() {});
+
+        return ResponseEntity.ok().body(detailInfo);
     }
 
     // 행정안전부_행정표준코드_법정동코드
