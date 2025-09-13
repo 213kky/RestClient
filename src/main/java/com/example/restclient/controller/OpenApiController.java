@@ -17,6 +17,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -37,11 +38,11 @@ public class TestController {
     // 1 국토교통부_공동주택 상세 정보조회 -> https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4
     // 2 국토교통부_공동주택 기본 정보조회 -> https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusBassInfoV4
     @GetMapping("/api/apartment/basic")
-    public ResponseEntity<ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>>> aptBasicInfo() {
+    public ResponseEntity<ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>>> aptBasicInfo(@RequestParam String kaptCode) {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusBassInfoV4") // 기본
                 .queryParam("serviceKey", serviceKey)
-                .queryParam("kaptCode", "A15876402") // 단지코드
+                .queryParam("kaptCode", kaptCode) // 단지코드
                 .build(true) // 이미 인코딩된 키 인코딩 방지
                 .toUri();
 
@@ -57,11 +58,11 @@ public class TestController {
     }
 
     @GetMapping("/api/apartment/detail")
-    public ResponseEntity<ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>>> aptDetailInfo() {
+    public ResponseEntity<ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>>> aptDetailInfo(@RequestParam String kaptCode) {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4") // 상세
                 .queryParam("serviceKey", serviceKey)
-                .queryParam("kaptCode", "A15876402") // 단지코드
+                .queryParam("kaptCode", kaptCode) // 단지코드
                 .build(true) // 이미 인코딩된 키 인코딩 방지
                 .toUri();
 
