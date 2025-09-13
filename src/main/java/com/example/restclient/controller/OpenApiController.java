@@ -123,16 +123,18 @@ public class OpenApiController {
     // 법정동코드 == 지역코드 10자리.. 읍면동까지가 좋은데 없는듯..
     // 시군구 사용하려면 5자리
     // 국토교통부_시군구 아파트 목록, 국토교통부_법정동 아파트 목록 둘 중 하나 쓸 듯
-    @GetMapping("/api/test/2")
-    public ResponseEntity<?> test2() {
-        String sigunguCode = "11320";
-
+    @GetMapping("/api/apt/sigungu") // 우선 시군구로 진행
+    public ResponseEntity<SigunguAptList3<Body>> getApts(
+            @RequestParam Integer sigunguCode,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNo,
+            @RequestParam(required = false, defaultValue = "10") Integer numOfRows
+    ) {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://apis.data.go.kr/1613000/AptListService3/getSigunguAptList3")
                 .queryParam("serviceKey", serviceKey)
-                .queryParam("pageNo", "1") // 페이지번호
-                .queryParam("numOfRows", "10") // 한 페이지 결과 수
-                .queryParam("sigunguCode", sigunguCode) // 시군구 코드 5자리
+                .queryParam("pageNo", String.valueOf(pageNo)) // 페이지번호
+                .queryParam("numOfRows", String.valueOf(numOfRows)) // 한 페이지 결과 수
+                .queryParam("sigunguCode", String.valueOf(sigunguCode)) // 시군구 코드 5자리
                 .build(true) // 이미 인코딩된 키 인코딩 방지
                 .toUri();
 
