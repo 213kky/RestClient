@@ -1,5 +1,7 @@
 package com.example.restclient.controller;
 
+import com.example.restclient.dto.apartment.detail.ApartmentDetailInfo;
+import com.example.restclient.dto.apartment.detail.DetailItem;
 import com.example.restclient.dto.aptlist.Body;
 import com.example.restclient.dto.aptlist.SigunguAptList3;
 import com.example.restclient.dto.stanregincd.StanReginCdResponse;
@@ -41,11 +43,13 @@ public class TestController {
 
         log.info("최종 URI: {}" , uri);
 
-        return restClient.get()
+        ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>> detailInfo = restClient.get()
                 .uri(uri)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .toEntity(String.class);
+                .body(new ParameterizedTypeReference<ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>>>() {});
+
+        return ResponseEntity.ok().body(detailInfo);
     }
 
     // 행정안전부_행정표준코드_법정동코드
