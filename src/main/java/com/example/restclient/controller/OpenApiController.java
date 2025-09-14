@@ -1,5 +1,6 @@
 package com.example.restclient.controller;
 
+import com.example.restclient.dto.AptInfoResponse;
 import com.example.restclient.dto.apartment.basic.ApartmentBasicInfo;
 import com.example.restclient.dto.apartment.basic.BasicItem;
 import com.example.restclient.dto.apartment.detail.ApartmentDetailInfo;
@@ -147,5 +148,38 @@ public class OpenApiController {
                 .body(new ParameterizedTypeReference<SigunguAptList3<Body>>() {});
 
         return ResponseEntity.ok().body(sigunguAptList3);
+    }
+
+    @GetMapping("/api/apartment-info")
+    public ResponseEntity<AptInfoResponse> getApartmentInfo(@RequestParam String kaptCode) {
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusBassInfoV4") // 기본
+                .queryParam("serviceKey", serviceKey)
+                .queryParam("kaptCode", kaptCode) // 단지코드
+                .build(true) // 이미 인코딩된 키 인코딩 방지
+                .toUri();
+
+        ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>> basicInfo = restClient.get()
+                .uri(uri)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<ApartmentBasicInfo<com.example.restclient.dto.apartment.Body<BasicItem>>>() {});
+
+        uri = UriComponentsBuilder
+                .fromUriString("https://apis.data.go.kr/1613000/AptBasisInfoServiceV4/getAphusDtlInfoV4") // 상세
+                .queryParam("serviceKey", serviceKey)
+                .queryParam("kaptCode", kaptCode) // 단지코드
+                .build(true) // 이미 인코딩된 키 인코딩 방지
+                .toUri();
+
+        ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>> detailInfo = restClient.get()
+                .uri(uri)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<ApartmentDetailInfo<com.example.restclient.dto.apartment.Body<DetailItem>>>() {});
+
+        AptInfoResponse response = AptInfoResponse.from(basicInfo, detailInfo);
+
+        return ResponseEntity.ok().body(response);
     }
 }
